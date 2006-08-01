@@ -1,0 +1,320 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\BDC.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_SETBIRTHDAY DIALOG DISCARDABLE  0, 0, 193, 76
+STYLE DS_SYSMODAL | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Set birthday"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "&Name",IDC_STATIC,7,38,28,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_NAME,41,38,96,13,ES_AUTOHSCROLL
+    LTEXT           "&Birthday",IDC_STATIC,7,57,28,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_BD_DAY,41,56,17,13,ES_RIGHT | ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    COMBOBOX        IDC_BD_MONTH,60,56,52,123,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    EDITTEXT        IDC_BD_YEAR,113,56,24,13,ES_RIGHT | ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    DEFPUSHBUTTON   "OK",IDOK,144,38,41,13
+    PUSHBUTTON      "Cancel",IDCANCEL,144,56,41,13
+    CONTROL         1009,IDC_STATIC,"Static",SS_BITMAP,0,0,193,31
+END
+
+IDD_PREFS_DIALOG DIALOGEX 0, 0, 256, 249
+STYLE DS_CONTROL | WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Settings",IDC_STATIC,7,7,242,95
+    LTEXT           "Warn",IDC_STATIC,27,27,20,12,SS_CENTERIMAGE
+    LTEXT           "&days in advance",IDC_STATIC,77,27,65,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_DAYSINADVANCE,49,27,23,12,ES_RIGHT | ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    CONTROL         "&Keep until confirmed",IDC_KEEPUNTILCONFIRMED,"Button",
+                    BS_AUTOCHECKBOX | BS_VCENTER | WS_TABSTOP,151,27,78,12
+    CONTROL         "&Warn daily",IDC_WARNDAILY,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,27,44,49,10
+    CONTROL         "Warn &annoyingly",IDC_WARNANNOYINGLY,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,79,44,69,10
+    CONTROL         "Draw &right icons",IDC_DRAWRIGHTICONS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,151,44,78,10
+    LTEXT           "&List:",IDC_STATIC,27,59,15,10,SS_CENTERIMAGE
+    CONTROL         "&None",IDC_SUFFIX_NONE,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,42,59,29,10
+    CONTROL         "A&ge",IDC_SUFFIX_AGE,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,72,59,25,10
+    CONTROL         "&Year",IDC_SUFFIX_YOB,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,98,59,27,10
+    CONTROL         "Year &short",IDC_SUFFIX_YOB_SHORT,"Button",
+                    BS_AUTORADIOBUTTON | WS_TABSTOP,126,59,44,10
+    CONTROL         "Da&te",IDC_SUFFIX_DATE,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,171,59,30,10
+    LTEXT           "Import:",IDC_STATIC,27,79,21,13,SS_CENTERIMAGE
+    PUSHBUTTON      "IC&Q contacts from contact list",IDC_IMPORTICQ,54,79,
+                    102,13
+    PUSHBUTTON      "&vCard files",IDC_IMPORTVCF,158,79,43,13
+    PUSHBUTTON      "WA&B",IDC_IMPORTWAB,203,79,26,13
+    GROUPBOX        "Info",IDC_STATIC,7,112,242,115
+    CONTROL         "&Instructions",IDC_INSTRUCTIONS,"Button",
+                    BS_AUTORADIOBUTTON | WS_TABSTOP,27,132,52,10
+    CONTROL         "Dis&claimer",IDC_DISCLAIMER,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,89,132,48,10
+    CONTROL         "&History",IDC_VERSIONHISTORY,"Button",
+                    BS_AUTORADIOBUTTON | WS_TABSTOP,146,132,37,10
+    EDITTEXT        IDC_INFO,27,152,202,65,ES_MULTILINE | ES_READONLY | 
+                    ES_WANTRETURN | NOT WS_BORDER | WS_VSCROLL,
+                    WS_EX_LEFTSCROLLBAR
+    CTEXT           "Version",IDC_VERSION,7,232,242,10,SS_CENTERIMAGE | 
+                    SS_SUNKEN
+    CONTROL         "&Left",IDC_DRAWLEFTINFO,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,204,59,25,10
+END
+
+IDD_IMPORT DIALOG DISCARDABLE  0, 0, 193, 111
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Import birthdays"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         1009,-1,"Static",SS_BITMAP,0,0,193,31
+    PUSHBUTTON      "&Skip",IDC_SKIP,7,90,54,14
+    PUSHBUTTON      "&Retry",IDC_RETRY,69,90,54,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,131,90,54,14
+    LISTBOX         IDC_REPORT,7,38,178,42,LBS_USETABSTOPS | 
+                    LBS_NOINTEGRALHEIGHT | LBS_NOSEL | WS_VSCROLL | 
+                    WS_TABSTOP
+END
+
+IDD_ANNOY_DIALOG DIALOG DISCARDABLE  0, 0, 193, 114
+STYLE DS_SYSMODAL | DS_MODALFRAME | DS_SETFOREGROUND | DS_CENTER | WS_POPUP | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "Birthday(s) alert"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         1009,-1,"Static",SS_BITMAP,0,0,193,31
+    CONTROL         "Animate1",IDC_ANIMATE,"SysAnimate32",ACS_CENTER | 
+                    ACS_TRANSPARENT | ACS_AUTOPLAY | WS_TABSTOP,128,38,57,52
+    PUSHBUTTON      "OK",IDCANCEL,128,93,57,14
+    EDITTEXT        IDC_ALERTTEXT,7,38,112,69,ES_MULTILINE | ES_READONLY | 
+                    ES_WANTRETURN | NOT WS_BORDER
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_SETBIRTHDAY DLGINIT
+BEGIN
+    IDC_BD_MONTH, 0x403, 8, 0
+0x614a, 0x756e, 0x7261, 0x0079, 
+    IDC_BD_MONTH, 0x403, 9, 0
+0x6546, 0x7262, 0x6175, 0x7972, "\000" 
+    IDC_BD_MONTH, 0x403, 6, 0
+0x614d, 0x6372, 0x0068, 
+    IDC_BD_MONTH, 0x403, 6, 0
+0x7041, 0x6972, 0x006c, 
+    IDC_BD_MONTH, 0x403, 4, 0
+0x614d, 0x0079, 
+    IDC_BD_MONTH, 0x403, 5, 0
+0x754a, 0x656e, "\000" 
+    IDC_BD_MONTH, 0x403, 5, 0
+0x754a, 0x796c, "\000" 
+    IDC_BD_MONTH, 0x403, 7, 0
+0x7541, 0x7567, 0x7473, "\000" 
+    IDC_BD_MONTH, 0x403, 10, 0
+0x6553, 0x7470, 0x6d65, 0x6562, 0x0072, 
+    IDC_BD_MONTH, 0x403, 8, 0
+0x634f, 0x6f74, 0x6562, 0x0072, 
+    IDC_BD_MONTH, 0x403, 9, 0
+0x6f4e, 0x6576, 0x626d, 0x7265, "\000" 
+    IDC_BD_MONTH, 0x403, 9, 0
+0x6544, 0x6563, 0x626d, 0x7265, "\000" 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BALLOONS            BITMAP  DISCARDABLE     "res\\bitmap1.bmp"
+IDB_BALLOONS_KNOWN      BITMAP  DISCARDABLE     "res\\balloons.bmp"
+IDB_PREFSLOGO           BITMAP  DISCARDABLE     "res\\prefs.BMP"
+IDB_BALLOONS_CONFIRMED  BITMAP  DISCARDABLE     "res\\balloons.bmp"
+IDB_BALLOONS_DIALOG     BITMAP  DISCARDABLE     "res\\Balloons dialog.bmp"
+IDB_VCF                 BITMAP  DISCARDABLE     "res\\bmp00002.bmp"
+IDB_WAB                 BITMAP  DISCARDABLE     "res\\vcf1.bmp"
+IDB_TODAY               BITMAP  DISCARDABLE     "res\\today.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_SETBIRTHDAY, DIALOG
+    BEGIN
+        VERTGUIDE, 7
+        VERTGUIDE, 185
+        BOTTOMMARGIN, 69
+        HORZGUIDE, 31
+        HORZGUIDE, 38
+    END
+
+    IDD_PREFS_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 249
+        VERTGUIDE, 27
+        VERTGUIDE, 229
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 242
+        HORZGUIDE, 27
+        HORZGUIDE, 39
+        HORZGUIDE, 44
+        HORZGUIDE, 54
+        HORZGUIDE, 59
+        HORZGUIDE, 69
+        HORZGUIDE, 77
+        HORZGUIDE, 92
+        HORZGUIDE, 102
+        HORZGUIDE, 112
+        HORZGUIDE, 132
+        HORZGUIDE, 142
+        HORZGUIDE, 152
+        HORZGUIDE, 217
+        HORZGUIDE, 227
+        HORZGUIDE, 232
+    END
+
+    IDD_IMPORT, DIALOG
+    BEGIN
+        VERTGUIDE, 7
+        VERTGUIDE, 185
+        BOTTOMMARGIN, 104
+        HORZGUIDE, 31
+        HORZGUIDE, 38
+        HORZGUIDE, 80
+        HORZGUIDE, 90
+    END
+
+    IDD_ANNOY_DIALOG, DIALOG
+    BEGIN
+        VERTGUIDE, 7
+        VERTGUIDE, 185
+        BOTTOMMARGIN, 107
+        HORZGUIDE, 31
+        HORZGUIDE, 38
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXT
+//
+
+IDR_INSTRUCTIONS        TEXT    DISCARDABLE     "res\\instructions.txt"
+IDR_DISCLAIMER          TEXT    DISCARDABLE     "res\\disclaimer.txt"
+IDR_VERSIONHISTORY      TEXT    DISCARDABLE     "res\\version history.txt"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AVI
+//
+
+IDR_BALLOONSAVI         AVI     DISCARDABLE     "Eigen resources\\Balloons animated.avi"
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif //_WIN32
+#include "res\BDC.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

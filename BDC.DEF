@@ -1,0 +1,9 @@
+; BDC.def : Declares the module parameters for the DLL.
+
+LIBRARY      "BDC"
+DESCRIPTION  'BDC - Birthday Calendar - Trillian Plugin'
+
+EXPORTS
+plugin_main				@1
+plugin_version			@2
+DllMain
