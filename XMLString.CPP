@@ -83,18 +83,21 @@ CString CXMLString::Encode(CString cURL)
 		'A', 'B', 'C', 'D', 'E', 'F' };
 
 	CString cNewURL = "";
+	
 	// Walk through the provided URL
 	for( int i=0; i < cURL.GetLength(); i++ )
 	{ 
-		if( IsUnsafe( cURL[i] ) )
+		unsigned char currentChar = cURL.GetAt(i);
+		if( IsUnsafe( currentChar ) )
 		{
 			// Replace unsafe characters by their safe escape code
-			unsigned char temp = cURL[i];
-			cNewURL += "%" + ((CString)(char*)__toascii( hexVals[temp/16] )) + ((CString)(char*)__toascii( hexVals[temp%16] ));
+			cNewURL.AppendChar('%');
+			cNewURL.AppendChar(hexVals[currentChar/16]);
+			cNewURL.AppendChar(hexVals[currentChar%16]);
 		}
 		else
 			// Just copy safe characters
-			cNewURL += cURL[i];
+			cNewURL.AppendChar(currentChar);
 	}
 
 	return cNewURL;
