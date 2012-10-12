@@ -405,6 +405,35 @@ int CBDCApp::menuCallback(char *event, void *data)
 	return 0;
 }
 
+void CBDCApp::AddMenu(int id, char* text, menu_entry_t** pmenu_entry, void* pdata)
+{
+	menu_entry_t** pentry = pmenu_entry;
+	while( *pentry != NULL )
+	{
+		pentry = &(*pentry)->next_menu;
+	}
+
+	*pentry = (struct menu_entry_t *)malloc(sizeof(struct menu_entry_t));
+	trillianInitialize((**pentry));
+
+	(*pentry)->menu_id = id;
+	(*pentry)->type = MENU_TEXT;
+	AssignString(&(*pentry)->text, text);
+	(*pentry)->callback = ::menuCallback;
+	(*pentry)->data = (void*)pdata;
+}
+
+void CBDCApp::RemoveMenus(menu_entry_t** pmenu_entry)
+{
+	if( (*pmenu_entry)->next_menu != NULL )
+	{
+		RemoveMenus(&(*pmenu_entry)->next_menu);
+	}
+	if( (*pmenu_entry)->text )
+		free((*pmenu_entry)->text);
+	free(*pmenu_entry);
+}
+
 void CBDCApp::DrawKnown(CBirthday *pbd, bool bSorted/*=true*/)
 {
 	struct list_entry_t ple;
@@ -461,63 +490,19 @@ void CBDCApp::DrawKnown(CBirthday *pbd, bool bSorted/*=true*/)
 	MakeIconRight( &ple,
 		pbd->m_medium);
 
-	// menu item 1: "ADD"
-	ple.menu_entry = (struct menu_entry_t *)malloc(sizeof(struct menu_entry_t));
-	trillianInitialize((*ple.menu_entry));
-	
-	ple.menu_entry->menu_id = MENU_ADD;
-	ple.menu_entry->type = MENU_TEXT;
-	AssignString(&ple.menu_entry->text, "&Add...");
-	ple.menu_entry->callback = ::menuCallback;
-
-	// menu item 2: "EDIT"
-	ple.menu_entry->next_menu = (struct menu_entry_t *)malloc(sizeof(struct menu_entry_t));
-	trillianInitialize((*ple.menu_entry->next_menu));
-	
-	ple.menu_entry->next_menu->menu_id = MENU_EDIT;
-	ple.menu_entry->next_menu->type = MENU_TEXT;
-	AssignString(&ple.menu_entry->next_menu->text, "&Edit...");
-	ple.menu_entry->next_menu->callback = ::menuCallback;
-	ple.menu_entry->next_menu->data = (void*)pbd;
-
-	// menu item 3: "REMOVE"
-	ple.menu_entry->next_menu->next_menu = (struct menu_entry_t *)malloc(sizeof(struct menu_entry_t));
-	trillianInitialize((*ple.menu_entry->next_menu->next_menu));
-
-	ple.menu_entry->next_menu->next_menu->menu_id = MENU_REMOVE;
-	ple.menu_entry->next_menu->next_menu->type = MENU_TEXT;
-	AssignString(&ple.menu_entry->next_menu->next_menu->text, "&Remove");
-	ple.menu_entry->next_menu->next_menu->callback = ::menuCallback;
-	ple.menu_entry->next_menu->next_menu->data = (void*)pbd;
+	AddMenu(MENU_ADD, "&Add...", &ple.menu_entry);
+	AddMenu(MENU_EDIT, "&Edit...", &ple.menu_entry, pbd);
+	AddMenu(MENU_REMOVE, "&Remove...", &ple.menu_entry, pbd);
 
 	if( pbd->m_medium == MEDIUM_ICQ )
 	{
-		// menu item 4: "RELOAD"
-		ple.menu_entry->next_menu->next_menu->next_menu = (struct menu_entry_t *)malloc(sizeof(struct menu_entry_t));
-		trillianInitialize((*ple.menu_entry->next_menu->next_menu->next_menu));
-
-		ple.menu_entry->next_menu->next_menu->next_menu->menu_id = MENU_RELOAD;
-		ple.menu_entry->next_menu->next_menu->next_menu->type = MENU_TEXT;
-		AssignString(&ple.menu_entry->next_menu->next_menu->next_menu->text, "&Reload");
-		ple.menu_entry->next_menu->next_menu->next_menu->callback = ::menuCallback;
-		ple.menu_entry->next_menu->next_menu->next_menu->data = (void*)pbd;
+		AddMenu(MENU_RELOAD, "Re&load...", &ple.menu_entry, pbd);
 	}
 
 	// You'll need the UniqueID for any further manipulation, so store it somewhere nice
 	pbd->m_listid_known = m_plugin_send(MYGUID, "listAddEntry", (void *)&ple); 
 
-	// Free what needs to be freed
-	if(ple.menu_entry->next_menu->next_menu->next_menu)
-	{
-		free(ple.menu_entry->next_menu->next_menu->next_menu->text);
-		free(ple.menu_entry->next_menu->next_menu->next_menu);
-	}
-	free(ple.menu_entry->next_menu->next_menu->text);
-	free(ple.menu_entry->next_menu->next_menu);
-	free(ple.menu_entry->next_menu->text);
-	free(ple.menu_entry->next_menu);
-	free(ple.menu_entry->text);
-	free(ple.menu_entry);
+	RemoveMenus(&ple.menu_entry);
 	free(ple.text);
 	free(ple.tooltip);
 	free(ple.left_icons->bitmap);
@@ -580,66 +565,22 @@ void CBDCApp::DrawBirthday(CBirthday *pbd)
 		ple.font.normal_fore = "recent-online-fore";
 	}
 
-	// menu item 1: "EDIT"
-	ple.menu_entry = (struct menu_entry_t *)malloc(sizeof(struct menu_entry_t));
-	trillianInitialize((*ple.menu_entry));
-	
-	ple.menu_entry->menu_id = MENU_EDIT;
-	ple.menu_entry->type = MENU_TEXT;
-	AssignString(&ple.menu_entry->text, "&Edit...");
-	ple.menu_entry->callback = ::menuCallback;
-	ple.menu_entry->data = (void*)pbd;
-
-	// menu item 2: "CONFIRM"
-	ple.menu_entry->next_menu = (struct menu_entry_t *)malloc(sizeof(struct menu_entry_t));
-	trillianInitialize((*ple.menu_entry->next_menu));
-
-	ple.menu_entry->next_menu->menu_id = MENU_CONFIRM;
-	ple.menu_entry->next_menu->type = MENU_TEXT;
-	AssignString(&ple.menu_entry->next_menu->text, "&Confirm");
-	ple.menu_entry->next_menu->callback = ::menuCallback;
-	ple.menu_entry->next_menu->data = (void*)pbd;
-
-	// menu item 3: "REMOVE"
-	ple.menu_entry->next_menu->next_menu = (struct menu_entry_t *)malloc(sizeof(struct menu_entry_t));
-	trillianInitialize((*ple.menu_entry->next_menu->next_menu));
-
-	ple.menu_entry->next_menu->next_menu->menu_id = MENU_REMOVE;
-	ple.menu_entry->next_menu->next_menu->type = MENU_TEXT;
-	AssignString(&ple.menu_entry->next_menu->next_menu->text, "&Remove");
-	ple.menu_entry->next_menu->next_menu->callback = ::menuCallback;
-	ple.menu_entry->next_menu->next_menu->data = (void*)pbd;
+	AddMenu(MENU_EDIT, "&Edit...", &ple.menu_entry, pbd);
+	AddMenu(MENU_CONFIRM, "&Confirm...", &ple.menu_entry, pbd);
+	AddMenu(MENU_REMOVE, "&Remove...", &ple.menu_entry, pbd);
 
 	if( pbd->m_medium == MEDIUM_ICQ )
 	{
-		// menu item 4: "RELOAD"
-		ple.menu_entry->next_menu->next_menu->next_menu = (struct menu_entry_t *)malloc(sizeof(struct menu_entry_t));
-		trillianInitialize((*ple.menu_entry->next_menu->next_menu->next_menu));
-
-		ple.menu_entry->next_menu->next_menu->next_menu->menu_id = MENU_RELOAD;
-		ple.menu_entry->next_menu->next_menu->next_menu->type = MENU_TEXT;
-		AssignString(&ple.menu_entry->next_menu->next_menu->next_menu->text, "&Reload");
-		ple.menu_entry->next_menu->next_menu->next_menu->callback = ::menuCallback;
-		ple.menu_entry->next_menu->next_menu->next_menu->data = (void*)pbd;
+		AddMenu(MENU_RELOAD, "&Reload...", &ple.menu_entry, pbd);
 	}
 
 	// You'll need the UniqueID for any further manipulation, so store it somewhere nice
 	pbd->m_listid_bd = m_plugin_send(MYGUID, "listAddEntry", (void *)&ple);
 
 	// Free what needs to be freed
-	if(ple.menu_entry->next_menu->next_menu->next_menu)
-	{
-		free(ple.menu_entry->next_menu->next_menu->next_menu->text);
-		free(ple.menu_entry->next_menu->next_menu->next_menu);
-	}
-	free(ple.menu_entry->next_menu->next_menu->text);
-	free(ple.menu_entry->next_menu->next_menu);
-	free(ple.menu_entry->next_menu->text);
-	free(ple.menu_entry->next_menu);
-	free(ple.menu_entry->text);
-	free(ple.menu_entry);
-	free(ple.tooltip);
+	RemoveMenus(&ple.menu_entry);
 	free(ple.text);
+	free(ple.tooltip);
 	free(ple.left_icons->bitmap);
 	free(ple.left_icons->location);
 	free(ple.left_icons);

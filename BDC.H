@@ -75,6 +75,8 @@ protected:
 	CProcessor * m_pproc;
 	CString m_homedir;
 	void AssignString(char **pstrDestination, const char *strSource);
+	void CBDCApp::AddMenu(int id, char* text, menu_entry_t** pmenu_entry, void* pdata=NULL);
+	void CBDCApp::RemoveMenus(menu_entry_t** pmenu_entry);
 };
 
 
