@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "incl.h"
+
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -286,7 +286,7 @@ int i=			m_plugin_send(MYGUID, "listAddEntry", (void *)&ple);
 						m_pproc->PrefsShow(m_prefswnd);
 				}
 				ShowWindow(m_prefswnd, SW_SHOW);
-			}else
+			}	else
 			if( pps->show==0 )
 			{
 				if( m_prefswnd!=NULL )
@@ -505,18 +505,7 @@ void CBDCApp::DrawKnown(CBirthday *pbd, bool bSorted/*=true*/)
 	FreeMenus(&ple.menu_entry);
 	free(ple.text);
 	free(ple.tooltip);
-	free(ple.left_icons->bitmap);
-	free(ple.left_icons->location);
-	free(ple.left_icons);
-
-	if(ple.right_icons)
-	{
-		if(ple.right_icons->bitmap)
-			free(ple.right_icons->bitmap);
-		if(ple.right_icons->location)
-			free(ple.right_icons->location);
-		free(ple.right_icons);
-	}
+	FreeIcons(&ple);
 }
 
 void CBDCApp::DrawBirthday(CBirthday *pbd)
@@ -579,18 +568,7 @@ void CBDCApp::DrawBirthday(CBirthday *pbd)
 	FreeMenus(&ple.menu_entry);
 	free(ple.text);
 	free(ple.tooltip);
-	free(ple.left_icons->bitmap);
-	free(ple.left_icons->location);
-	free(ple.left_icons);
-
-	if(ple.right_icons)
-	{
-		if(ple.right_icons->bitmap)
-			free(ple.right_icons->bitmap);
-		if(ple.right_icons->location)
-			free(ple.right_icons->location);
-		free(ple.right_icons);
-	}
+	FreeIcons(&ple);
 }
 
 void CBDCApp::ClearKnown(CBirthday *pbd)
@@ -851,6 +829,24 @@ void CBDCApp::MakeIconRight(list_entry_t *pEntry, MEDIUM med)
 	}
 }
 
+void CBDCApp::FreeIcons(list_entry_t* list_entry)
+{
+	if(list_entry->left_icons)
+	{
+		free(list_entry->left_icons->bitmap);
+		free(list_entry->left_icons->location);
+		free(list_entry->left_icons);
+	}
+	if(list_entry->right_icons)
+	{
+		if(list_entry->right_icons->bitmap)
+			free(list_entry->right_icons->bitmap);
+		if(list_entry->right_icons->location)
+			free(list_entry->right_icons->location);
+		free(list_entry->right_icons);
+	}
+}
+
 void CBDCApp::UpdateIcon(CBirthday * pbd)
 {
 	if( pbd->m_listid_bd >= 0 )
@@ -871,18 +867,7 @@ void CBDCApp::UpdateIcon(CBirthday * pbd)
 			// You'll need the UniqueID for any further manipulation, so store it somewhere nice
 			m_plugin_send(MYGUID, "listUpdateIcon", (void *)&ple);
 
-			// Free what needs to be freed
-			free(ple.left_icons->bitmap);
-			free(ple.left_icons->location);
-			free(ple.left_icons);
-			if(ple.right_icons)
-			{
-				if(ple.right_icons->bitmap)
-					free(ple.right_icons->bitmap);
-				if(ple.right_icons->location)
-					free(ple.right_icons->location);
-				free(ple.right_icons);
-			}
+			FreeIcons(&ple);
 		}
 		{
 			struct list_entry_t ple;
@@ -979,7 +964,5 @@ void CBDCApp::DrawToday()
 	m_todayID = m_plugin_send(MYGUID, "listAddEntry", (void *)&ple);
 
 	// Free what needs to be freed
-	free(ple.left_icons->bitmap);
-	free(ple.left_icons->location);
-	free(ple.left_icons);
+	FreeIcons(&ple);
 }
