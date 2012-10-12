@@ -423,11 +423,11 @@ void CBDCApp::AddMenu(int id, char* text, menu_entry_t** pmenu_entry, void* pdat
 	(*pentry)->data = (void*)pdata;
 }
 
-void CBDCApp::RemoveMenus(menu_entry_t** pmenu_entry)
+void CBDCApp::FreeMenus(menu_entry_t** pmenu_entry)
 {
 	if( (*pmenu_entry)->next_menu != NULL )
 	{
-		RemoveMenus(&(*pmenu_entry)->next_menu);
+		FreeMenus(&(*pmenu_entry)->next_menu);
 	}
 	if( (*pmenu_entry)->text )
 		free((*pmenu_entry)->text);
@@ -502,7 +502,7 @@ void CBDCApp::DrawKnown(CBirthday *pbd, bool bSorted/*=true*/)
 	// You'll need the UniqueID for any further manipulation, so store it somewhere nice
 	pbd->m_listid_known = m_plugin_send(MYGUID, "listAddEntry", (void *)&ple); 
 
-	RemoveMenus(&ple.menu_entry);
+	FreeMenus(&ple.menu_entry);
 	free(ple.text);
 	free(ple.tooltip);
 	free(ple.left_icons->bitmap);
@@ -549,12 +549,10 @@ void CBDCApp::DrawBirthday(CBirthday *pbd)
 	ple.data			= (void*)pbd;
 
 	// icon
-	MakeIconLeft( &ple,
-		pbd->m_confirmed?1:0);
+	MakeIconLeft( &ple, pbd->m_confirmed?1:0);
 
 	// right icon
-	MakeIconRight( &ple,
-		pbd->m_medium);
+	MakeIconRight( &ple, pbd->m_medium);
 
 	if(pbd->m_date.IsDateOfYear())
 	{
@@ -578,7 +576,7 @@ void CBDCApp::DrawBirthday(CBirthday *pbd)
 	pbd->m_listid_bd = m_plugin_send(MYGUID, "listAddEntry", (void *)&ple);
 
 	// Free what needs to be freed
-	RemoveMenus(&ple.menu_entry);
+	FreeMenus(&ple.menu_entry);
 	free(ple.text);
 	free(ple.tooltip);
 	free(ple.left_icons->bitmap);
@@ -597,33 +595,32 @@ void CBDCApp::DrawBirthday(CBirthday *pbd)
 
 void CBDCApp::ClearKnown(CBirthday *pbd)
 {
-	if( pbd->m_listid_known != -1 )
-	{
-		struct list_entry_t ple;
-		trillianListInitialize(ple);
-		ple.unique_id = pbd->m_listid_known;
-		ple.section_id = -1;
-		ple.parent_id = -1;
-		ple.previous_id = -1;
-		m_plugin_send(MYGUID, "listRemoveEntry", (void *)&ple);
-		// Clear field in data that linked to listed entry
-		pbd->m_listid_known = -1;
-	}
+	ClearItem(&pbd->m_listid_known);
 }
 
 void CBDCApp::ClearBirthday(CBirthday *pbd)
 {
-	if( pbd->m_listid_bd != -1 )
+	ClearItem(&pbd->m_listid_bd);
+}
+
+void CBDCApp::ClearToday()
+{
+	ClearItem(&m_todayID);
+}
+
+void CBDCApp::ClearItem(int* pid)
+{
+	if( *pid != -1 )
 	{
 		struct list_entry_t ple;
 		trillianListInitialize(ple);
-		ple.unique_id = pbd->m_listid_bd;
+		ple.unique_id = *pid;
 		ple.section_id = -1;
 		ple.parent_id = -1;
 		ple.previous_id = -1;
 		m_plugin_send(MYGUID, "listRemoveEntry", (void *)&ple);
 		// Clear field in data that linked to listed entry
-		pbd->m_listid_bd = -1;
+		*pid = -1;
 	}
 }
 
@@ -985,20 +982,4 @@ void CBDCApp::DrawToday()
 	free(ple.left_icons->bitmap);
 	free(ple.left_icons->location);
 	free(ple.left_icons);
-}
-
-void CBDCApp::ClearToday()
-{
-	if( m_todayID != -1 )
-	{
-		struct list_entry_t ple;
-		trillianListInitialize(ple);
-		ple.unique_id = m_todayID;
-		ple.section_id = -1;
-		ple.parent_id = -1;
-		ple.previous_id = -1;
-		m_plugin_send(MYGUID, "listRemoveEntry", (void *)&ple);
-		// Clear field in data that linked to listed entry
-		m_todayID = -1;
-	}
 }
