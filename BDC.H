@@ -78,6 +78,7 @@ protected:
 	void CBDCApp::AddMenu(int id, char* text, menu_entry_t** pmenu_entry, void* pdata=NULL);
 	void CBDCApp::FreeMenus(menu_entry_t** pmenu_entry);
 	void CBDCApp::ClearItem(int* pid);
+	void CBDCApp::FreeIcons(list_entry_t* list_entry);
 };
 
 

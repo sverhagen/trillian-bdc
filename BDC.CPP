@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-
+#include "incl.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
