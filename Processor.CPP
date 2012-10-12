@@ -386,7 +386,7 @@ int CProcessor::prefDialog(HWND hWnd, UINT message, WPARAM wparam, LPARAM lparam
 CString CProcessor::GetKnownCount()
 {
 	char buffer[10];
-	itoa( m_pbds->GetCount(), buffer, 10 );
+	_itoa_s( m_pbds->GetCount(), buffer, 10 );
 	return CString(buffer);
 }
 

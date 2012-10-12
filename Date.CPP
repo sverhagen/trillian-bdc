@@ -205,11 +205,11 @@ CString CDate::construct()
 {
 	char buf[10];
 	CString ret = "<"+m_xmlname+">\r\n";
-	itoa(m_day, buf, 10);
+	_itoa_s(m_day, buf, 10);
 	ret += "<day>"+CXMLString::Encode((CString)buf)+"</day>\r\n";
-	itoa(m_month, buf, 10);
+	_itoa_s(m_month, buf, 10);
 	ret += "<month>"+CXMLString::Encode((CString)buf)+"</month>\r\n";
-	itoa(m_year, buf, 10);
+	_itoa_s(m_year, buf, 10);
 	ret += "<year>"+CXMLString::Encode((CString)buf)+"</year>\r\n";
 	ret += "</"+m_xmlname+">\r\n";
 	return ret;

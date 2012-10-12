@@ -74,6 +74,7 @@ protected:
 	plugin_function_send m_plugin_send;
 	CProcessor * m_pproc;
 	CString m_homedir;
+	void AssignString(char **pstrDestination, const char *strSource);
 };
 
 

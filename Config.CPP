@@ -35,7 +35,7 @@ CString CConfig::construct()
 
 	CString ret = "<"+m_xmlname+">\r\n";
 	
-	itoa(m_daysAdvance, buf, 10);
+	_itoa_s(m_daysAdvance, buf, 10);
 	ret += "<daysInAdvance>"+CXMLString::Encode((CString)buf)+"</daysInAdvance>\r\n";
 	
 	ret += "<warn>\r\n";

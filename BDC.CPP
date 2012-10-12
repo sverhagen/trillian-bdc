@@ -76,6 +76,13 @@ CBDCApp::~CBDCApp()
 	CProcessor::FinalCleanup();
 }
 
+void CBDCApp::AssignString(char **pstrDestination, const char *strSource)
+{
+	int len = strlen(strSource)+1;
+	*pstrDestination = (char *)malloc(len);
+	strcpy_s(*pstrDestination, len, strSource);
+}
+
 int CBDCApp::main(char *event, void *data)
 {
 	if( !_stricmp(event,"load") )
@@ -85,11 +92,11 @@ int CBDCApp::main(char *event, void *data)
 	   if( pi )
 	   {
 			// Fill in plugin information
-			strcpy(pi->guid, MYGUID); 
-			strcpy(pi->name, "Birthday Calendar"); 
-			strcpy(pi->company, "Totaal Software"); 
-			strcpy(pi->version, VERSION); 
-			strcpy(pi->description, "Keep track of your friends' birthdays.");
+			strcpy_s(pi->guid, MYGUID); 
+			strcpy_s(pi->name, "Birthday Calendar"); 
+			strcpy_s(pi->company, "Totaal Software"); 
+			strcpy_s(pi->version, VERSION); 
+			strcpy_s(pi->description, "Keep track of your friends' birthdays.");
          
 			// Extract what we need and store locally
 			m_plugin_send = pi->plugin_send;
@@ -164,8 +171,7 @@ int i=			m_plugin_send(MYGUID, "listAddEntry", (void *)&ple);
 			
 			ple.menu_entry->menu_id = MENU_ADD;
 			ple.menu_entry->type = MENU_TEXT;
-			ple.menu_entry->text = (char *)malloc(strlen("&Add...")+1);
-			strcpy(ple.menu_entry->text, "&Add...");
+			AssignString(&ple.menu_entry->text, "&Add...");
 			ple.menu_entry->callback = ::menuCallback;
 
 			m_knowngroupID = m_plugin_send(MYGUID, "listAddEntry", (void *)&ple);
@@ -259,8 +265,8 @@ int i=			m_plugin_send(MYGUID, "listAddEntry", (void *)&ple);
 		{
 			int prefDialog();
 
-			strcpy(pps->prefs_info.name, "Birthday Calendar");
-			strcpy(pps->prefs_info.description, "Keep track of your friends' birthdays.");
+			strcpy_s(pps->prefs_info.name, "Birthday Calendar");
+			strcpy_s(pps->prefs_info.description, "Keep track of your friends' birthdays.");
 			pps->prefs_info.bitmap = LoadBitmap(m_hInstance, MAKEINTRESOURCE(IDB_PREFSLOGO));
 
 			if( pps->show==1 )
@@ -421,18 +427,15 @@ void CBDCApp::DrawKnown(CBirthday *pbd, bool bSorted/*=true*/)
 	else
 		ple.previous_id	= -1;
 
-	ple.tooltip = (char *)malloc(strlen(pbd->GetTooltip())+1);
-	strcpy(ple.tooltip, pbd->GetTooltip());
+	AssignString(&ple.tooltip, pbd->GetTooltip());
 	ASSERT(m_pproc);
 	if( m_pproc )
 	{
-		ple.text = (char *)malloc(strlen(pbd->GetText(m_pproc->GetSuffix(), m_pproc->DrawLeftInfo()))+1);
-		strcpy(ple.text, pbd->GetText(m_pproc->GetSuffix(), m_pproc->DrawLeftInfo()));
+		AssignString(&ple.text, pbd->GetText(m_pproc->GetSuffix(), m_pproc->DrawLeftInfo()));
 	}
 	else
 	{
-		ple.text = (char *)malloc(strlen(pbd->GetText(SUFFIX_NONE))+1);
-		strcpy(ple.text, pbd->GetText(SUFFIX_NONE));
+		AssignString(&ple.text, pbd->GetText(SUFFIX_NONE));
 	}
 
 	ple.data			= (void*)pbd;
@@ -464,8 +467,7 @@ void CBDCApp::DrawKnown(CBirthday *pbd, bool bSorted/*=true*/)
 	
 	ple.menu_entry->menu_id = MENU_ADD;
 	ple.menu_entry->type = MENU_TEXT;
-	ple.menu_entry->text = (char *)malloc(strlen("&Add...")+1);
-	strcpy(ple.menu_entry->text, "&Add...");
+	AssignString(&ple.menu_entry->text, "&Add...");
 	ple.menu_entry->callback = ::menuCallback;
 
 	// menu item 2: "EDIT"
@@ -474,8 +476,7 @@ void CBDCApp::DrawKnown(CBirthday *pbd, bool bSorted/*=true*/)
 	
 	ple.menu_entry->next_menu->menu_id = MENU_EDIT;
 	ple.menu_entry->next_menu->type = MENU_TEXT;
-	ple.menu_entry->next_menu->text = (char *)malloc(strlen("&Edit...")+1);
-	strcpy(ple.menu_entry->next_menu->text, "&Edit...");
+	AssignString(&ple.menu_entry->next_menu->text, "&Edit...");
 	ple.menu_entry->next_menu->callback = ::menuCallback;
 	ple.menu_entry->next_menu->data = (void*)pbd;
 
@@ -485,8 +486,7 @@ void CBDCApp::DrawKnown(CBirthday *pbd, bool bSorted/*=true*/)
 
 	ple.menu_entry->next_menu->next_menu->menu_id = MENU_REMOVE;
 	ple.menu_entry->next_menu->next_menu->type = MENU_TEXT;
-	ple.menu_entry->next_menu->next_menu->text = (char *)malloc(strlen("&Remove")+1);
-	strcpy(ple.menu_entry->next_menu->next_menu->text, "&Remove");
+	AssignString(&ple.menu_entry->next_menu->next_menu->text, "&Remove");
 	ple.menu_entry->next_menu->next_menu->callback = ::menuCallback;
 	ple.menu_entry->next_menu->next_menu->data = (void*)pbd;
 
@@ -498,8 +498,7 @@ void CBDCApp::DrawKnown(CBirthday *pbd, bool bSorted/*=true*/)
 
 		ple.menu_entry->next_menu->next_menu->next_menu->menu_id = MENU_RELOAD;
 		ple.menu_entry->next_menu->next_menu->next_menu->type = MENU_TEXT;
-		ple.menu_entry->next_menu->next_menu->next_menu->text = (char *)malloc(strlen("&Reload")+1);
-		strcpy(ple.menu_entry->next_menu->next_menu->next_menu->text, "&Reload");
+		AssignString(&ple.menu_entry->next_menu->next_menu->next_menu->text, "&Reload");
 		ple.menu_entry->next_menu->next_menu->next_menu->callback = ::menuCallback;
 		ple.menu_entry->next_menu->next_menu->next_menu->data = (void*)pbd;
 	}
@@ -551,18 +550,15 @@ void CBDCApp::DrawBirthday(CBirthday *pbd)
 	ple.expanded		= 1; 
 	ple.callback		= ::listCallback;
 
-	ple.tooltip = (char *)malloc(strlen(pbd->GetTooltip())+1);
-	strcpy(ple.tooltip, pbd->GetTooltip());
+	AssignString(&ple.tooltip, pbd->GetTooltip());
 	ASSERT(m_pproc);
 	if( m_pproc )
 	{
-		ple.text = (char *)malloc(strlen(pbd->GetText(m_pproc->GetSuffix(), m_pproc->DrawLeftInfo()))+1);
-		strcpy(ple.text, pbd->GetText(m_pproc->GetSuffix(), m_pproc->DrawLeftInfo()));
+		AssignString(&ple.text, pbd->GetText(m_pproc->GetSuffix(), m_pproc->DrawLeftInfo()));
 	}
 	else
 	{
-		ple.text = (char *)malloc(strlen(pbd->GetText(SUFFIX_NONE))+1);
-		strcpy(ple.text, pbd->GetText(SUFFIX_NONE));
+		AssignString(&ple.text, pbd->GetText(SUFFIX_NONE));
 	}
 
 	ple.data			= (void*)pbd;
@@ -590,8 +586,7 @@ void CBDCApp::DrawBirthday(CBirthday *pbd)
 	
 	ple.menu_entry->menu_id = MENU_EDIT;
 	ple.menu_entry->type = MENU_TEXT;
-	ple.menu_entry->text = (char *)malloc(strlen("&Edit...")+1);
-	strcpy(ple.menu_entry->text, "&Edit...");
+	AssignString(&ple.menu_entry->text, "&Edit...");
 	ple.menu_entry->callback = ::menuCallback;
 	ple.menu_entry->data = (void*)pbd;
 
@@ -601,8 +596,7 @@ void CBDCApp::DrawBirthday(CBirthday *pbd)
 
 	ple.menu_entry->next_menu->menu_id = MENU_CONFIRM;
 	ple.menu_entry->next_menu->type = MENU_TEXT;
-	ple.menu_entry->next_menu->text = (char *)malloc(strlen("&Confirm")+1);
-	strcpy(ple.menu_entry->next_menu->text, "&Confirm");
+	AssignString(&ple.menu_entry->next_menu->text, "&Confirm");
 	ple.menu_entry->next_menu->callback = ::menuCallback;
 	ple.menu_entry->next_menu->data = (void*)pbd;
 
@@ -612,8 +606,7 @@ void CBDCApp::DrawBirthday(CBirthday *pbd)
 
 	ple.menu_entry->next_menu->next_menu->menu_id = MENU_REMOVE;
 	ple.menu_entry->next_menu->next_menu->type = MENU_TEXT;
-	ple.menu_entry->next_menu->next_menu->text = (char *)malloc(strlen("&Remove")+1);
-	strcpy(ple.menu_entry->next_menu->next_menu->text, "&Remove");
+	AssignString(&ple.menu_entry->next_menu->next_menu->text, "&Remove");
 	ple.menu_entry->next_menu->next_menu->callback = ::menuCallback;
 	ple.menu_entry->next_menu->next_menu->data = (void*)pbd;
 
@@ -625,8 +618,7 @@ void CBDCApp::DrawBirthday(CBirthday *pbd)
 
 		ple.menu_entry->next_menu->next_menu->next_menu->menu_id = MENU_RELOAD;
 		ple.menu_entry->next_menu->next_menu->next_menu->type = MENU_TEXT;
-		ple.menu_entry->next_menu->next_menu->next_menu->text = (char *)malloc(strlen("&Reload")+1);
-		strcpy(ple.menu_entry->next_menu->next_menu->next_menu->text, "&Reload");
+		AssignString(&ple.menu_entry->next_menu->next_menu->next_menu->text, "&Reload");
 		ple.menu_entry->next_menu->next_menu->next_menu->callback = ::menuCallback;
 		ple.menu_entry->next_menu->next_menu->next_menu->data = (void*)pbd;
 	}
@@ -790,18 +782,16 @@ void CBDCApp::UpdateText(CBirthday *pbd)
 	struct list_entry_t ple;
 	trillianListInitialize(ple);
 	// Fill new list item structure
+	AssignString(&ple.tooltip, pbd->GetTooltip());
 	ple.tooltip = (char *)malloc(strlen(pbd->GetTooltip())+1);
-	strcpy(ple.tooltip, pbd->GetTooltip());
 	ASSERT(m_pproc);
 	if( m_pproc )
 	{
-		ple.text = (char *)malloc(strlen(pbd->GetText(m_pproc->GetSuffix(), m_pproc->DrawLeftInfo()))+1);
-		strcpy(ple.text, pbd->GetText(m_pproc->GetSuffix(), m_pproc->DrawLeftInfo()));
+		AssignString(&ple.text, pbd->GetText(m_pproc->GetSuffix(), m_pproc->DrawLeftInfo()));
 	}
 	else
 	{
-		ple.text = (char *)malloc(strlen(pbd->GetText(SUFFIX_NONE))+1);
-		strcpy(ple.text, pbd->GetText(SUFFIX_NONE));
+		AssignString(&ple.text, pbd->GetText(SUFFIX_NONE));
 	}
 
 	// Set the text and the tooltip

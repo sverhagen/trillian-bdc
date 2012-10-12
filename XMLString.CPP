@@ -90,7 +90,7 @@ CString CXMLString::Encode(CString cURL)
 		{
 			// Replace unsafe characters by their safe escape code
 			unsigned char temp = cURL[i];
-			cNewURL += "%" + ((CString)__toascii( hexVals[temp/16] )) + ((CString)__toascii( hexVals[temp%16] ));
+			cNewURL += "%" + ((CString)(char*)__toascii( hexVals[temp/16] )) + ((CString)(char*)__toascii( hexVals[temp%16] ));
 		}
 		else
 			// Just copy safe characters

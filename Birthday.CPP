@@ -88,24 +88,24 @@ CString CBirthday::GetSuffix(SUFFIX sx)
 	switch( sx )
 	{
 		case SUFFIX_YOB:
-			itoa( m_date.GetYear(), cBuffer, 10 );
+			_itoa_s( m_date.GetYear(), cBuffer, 10 );
 			return CString(cBuffer);
 			break;
 		case SUFFIX_YOB_SHORT:
-			itoa( m_date.GetYear(), cBuffer, 10 );
+			_itoa_s( m_date.GetYear(), cBuffer, 10 );
 			return CString( "'" + CString(cBuffer).Right(2) );
 			break;
 		case SUFFIX_AGE:
 			if( m_date.GetAge() != (signed)CDate().GetYear() )
 			{
-				itoa( m_date.GetAge(), cBuffer, 10 );
+				_itoa_s( m_date.GetAge(), cBuffer, 10 );
 				return CString(cBuffer)+" years";
 			}
 			break;
 		case SUFFIX_AGE_SHORT:
 			if( m_date.GetAge() != (signed)CDate().GetYear() )
 			{
-				itoa( m_date.GetAge(), cBuffer, 10 );
+				_itoa_s( m_date.GetAge(), cBuffer, 10 );
 				return CString(cBuffer)+"y";
 			}
 			break;
