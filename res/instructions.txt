@@ -1,6 +1,6 @@
 Right-click on the Known Birthdays group and Add your own friends's birthdays, or right-click on an existing birthday and Edit it.
 
-When entering or editing a birthday, you can enter your friends's name and his or her day and month of birth.
+When entering or editing a birthday, you can enter your friends's name and his or her day, month and year of birth.
 
 You will be alerted of your friends's birthday a number of days in advance. This number can be set in the plugin's Preferences.
 
