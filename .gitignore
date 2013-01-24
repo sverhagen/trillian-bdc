@@ -1,0 +1,11 @@
+/Debug/
+/Release/
+/ipch/
+/*.suo
+/*.user
+/*.sdf
+/*.opensdf
+/*.plg
+/*.APS
+/*.ncb
+/*.opt
