@@ -1,0 +1,23 @@
+# Normal Usage #
+
+Right-click on the `Known Birthdays` group and `Add` your own friends's birthdays, or right-click on an existing birthday and `Edit` it.
+
+When entering or editing a birthday, you can enter your friends's name and his or her day, month and year of birth.
+
+You will be alerted of your friends's birthday a number of days in advance. This number can be set in the plugin's [Preferences](Preferences.md).
+
+Depending on the corresponding [Preferences](Preferences.md) setting, you will be reminded daily; either until the actual birthday or until you confirm the birthday. Confirmation being required, depends on the plugin's [Preferences](Preferences.md).
+
+A birthday will be shown at the top of the `Birthdays` section until the actual birthday or until confirmed, whichever occurs later.
+
+When a (daily) alert is required, this will occur at midnight or the first time after midnight that the plugin is started by Trillian.
+An alert normally is done through a Trillian tray alert. However, when `Warn annoyingly` is selected in the plugin's [Preferences](Preferences.md), a foreground dialog box with accompanying sound will be used to alert you.
+
+To confirm or remove a birthday, right-click on it and choose the appropriate option.
+
+The following options may be not as useful anymore as when they were introduced way-back-when:
+  * You can easily import ICQ contacts through the [Preferences](Preferences.md) of the plugin. Note that this process can take a bit since for every contact a slow connection to the ICQ web site has to be made.
+  * You can easily import vCard files (vcf) through the [Preferences](Preferences.md) of the plugin. vCard files can be exported from for instance Windows Address Book.
+  * You can easily import birthdays from the default Windows Address Book (WAB) through the [Preferences](Preferences.md) of the plugin.
+
+ICQ, vCard and WAB imported birthdays are indicated as such by a right-hand icon. This indication can be switched off through the [Preferences](Preferences.md).
